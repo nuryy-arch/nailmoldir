@@ -31,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             alt="Молдир"
             className="w-7 h-7 rounded-full object-cover border border-[#B76E79] shadow-sm"
           />
-          <span className="font-semibold">Кызылорда • Салон «Салта Исаева»</span>
+          <span className="font-semibold">Кызылорда • Салон «Aizada Studio»</span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#B76E79] animate-ping" />
         </div>
 
@@ -105,7 +105,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             </div>
             <div>
               <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-semibold">Локация</div>
-              <div className="text-xs sm:text-sm font-medium text-[var(--text-primary)]">Казантаева, 31</div>
+              <div className="text-xs sm:text-sm font-medium text-[var(--text-primary)]">Казантаева, 19</div>
             </div>
           </div>
 

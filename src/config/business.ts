@@ -12,15 +12,15 @@ export const BUSINESS_CONFIG = {
   // Контакты и локация (только реальные данные из ТЗ)
   contacts: {
     city: 'г. Кызылорда',
-    address: 'ул. Казантаева, 31 (салон красоты «Салта Исаева» / salta_issayeva.studio)',
+    address: 'ул. Казантаева, 19 (салон красоты «Aizada Studio»)',
     phone: '+7 777 456 80 00',
     phoneClean: '77774568000',
     whatsappUrl: 'https://wa.me/77774568000',
     instagramName: '@nail_stylist_moldir',
     instagramUrl: 'https://www.instagram.com/nail_stylist_moldir/',
     // Ссылка на построение маршрута в 2GIS / Карты
-    mapsRouteUrl: 'https://2gis.kz/kyzylorda/search/%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%82%D0%B0%D0%B5%D0%B2%D0%B0%2C%2031',
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=%D0%9A%D1%8B%D0%B7%D1%8B%D0%BB%D0%BE%D1%80%D0%B4%D0%B0+%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%82%D0%B0%D0%B5%D0%B2%D0%B0+31',
+    mapsRouteUrl: 'https://2gis.kz/kyzylorda/search/%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%82%D0%B0%D0%B5%D0%B2%D0%B0%2C%2019',
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=%D0%9A%D1%8B%D0%B7%D1%8B%D0%BB%D0%BE%D1%80%D0%B4%D0%B0+%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%82%D0%B0%D0%B5%D0%B2%D0%B0+19',
     
     // TODO: График работы (укажите точные рабочие часы, если они изменятся)
     workingHours: 'Пн – Сб: 10:00 – 19:00 (по предварительной записи)',
@@ -153,7 +153,7 @@ export const BUSINESS_CONFIG = {
     {
       icon: 'Coffee',
       title: 'Комфортная атмосфера салона',
-      description: 'Приятный приём в салоне красоты «Салта Исаева», удобные кресла, внимание к деталям и чашка согревающего чая или кофе.',
+      description: 'Приятный приём в салоне красоты «Aizada Studio», удобные кресла, внимание к деталям и чашка согревающего чая или кофе.',
     },
   ] as AdvantageItem[],
 };

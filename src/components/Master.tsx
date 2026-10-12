@@ -80,7 +80,7 @@ export const Master: React.FC<MasterProps> = ({ onOpenBooking }) => {
             </div>
 
             <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
-              Молдир — сертифицированный nail-стилист из Кызылорды, принимающий клиентов в уютном салоне красоты «Салта Исаева».
+              Молдир — сертифицированный nail-стилист из Кызылорды, принимающий клиентов в уютном салоне красоты «Aizada Studio».
             </p>
 
             <div className="space-y-4 pt-2">

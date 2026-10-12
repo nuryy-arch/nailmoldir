@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
       <div className="bg-[var(--bg-subtle)] border-b border-[var(--border-gold)] px-4 py-1.5 text-center transition-colors">
         <p className="text-[11px] sm:text-xs text-[#8F4C56] dark:text-[#E8B4A8] font-medium tracking-wider flex items-center justify-center gap-2">
           <span className="inline-block w-2 h-2 rounded-full bg-[#B76E79] animate-pulse"></span>
-          <span>КЫЗЫЛОРДА • САЛОН «САЛТА ИСАЕВА» • ОНЛАЙН-ЗАПИСЬ WHATSAPP</span>
+          <span>КЫЗЫЛОРДА • САЛОН «AIZADA STUDIO» • ОНЛАЙН-ЗАПИСЬ WHATSAPP</span>
         </p>
       </div>
 

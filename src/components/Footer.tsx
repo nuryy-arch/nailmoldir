@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
             </div>
             
             <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-md font-light">
-              Nail-мастер Молдир: бережный аппаратный маникюр, стойкое наращивание, эстетический Smart-педикюр и авторское обучение. Салон «Салта Исаева», г. Кызылорда.
+              Nail-мастер Молдир: бережный аппаратный маникюр, стойкое наращивание, эстетический Smart-педикюр и авторское обучение. Салон «Aizada Studio», г. Кызылорда.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
             © {new Date().getFullYear()} {BUSINESS_CONFIG.brandName}. Все права защищены.
           </div>
           <div className="flex items-center gap-6">
-            <span>Салон «Салта Исаева»</span>
+            <span>Салон «Aizada Studio»</span>
             <span>Кызылорда</span>
           </div>
         </div>
