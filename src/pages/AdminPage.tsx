@@ -39,7 +39,11 @@ export const AdminPage: React.FC = () => {
   const [services, setServices] = useState<ServiceDbItem[]>([]);
   const [loadingData, setLoadingData] = useState(false);
   const [statusFilter, setStatusFilter] = useState<'all' | 'new' | 'confirmed' | 'cancelled'>('all');
-  const [dateFilter, setDateFilter] = useState<'all' | 'today' | 'week'>('all');
+  const [dateFilter, setDateFilter] = useState<'all' | 'today' | 'week' | 'custom'>('all');
+  const [customFilterDate, setCustomFilterDate] = useState<string>('');
+  const [showClearModal, setShowClearModal] = useState(false);
+  const [clearDateTarget, setClearDateTarget] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [deleting, setDeleting] = useState(false);
 
   // Форма блокировки времени
   const [blockDate, setBlockDate] = useState(new Date().toISOString().split('T')[0]);
@@ -194,6 +198,87 @@ export const AdminPage: React.FC = () => {
       .eq('id', id);
   };
 
+  // Удаление отдельной записи
+  const handleDeleteBooking = async (id: string, clientName: string) => {
+    if (!supabase) return;
+    if (!window.confirm(`Вы уверены, что хотите удалить запись клиента «${clientName}»?`)) return;
+
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', id);
+
+    if (!error) {
+      setBookings(prev => prev.filter(b => b.id !== id));
+    } else {
+      alert('Ошибка при удалении: ' + error.message);
+    }
+  };
+
+  // Очистка записей за конкретную дату
+  const handleClearBookingsByDate = async (targetDate: string) => {
+    if (!supabase) return;
+    const countForDate = bookings.filter(b => b.date === targetDate).length;
+    if (countForDate === 0) {
+      alert(`На дату ${targetDate} нет записей для удаления.`);
+      return;
+    }
+
+    if (!window.confirm(`Внимание! Будут удалены ВСЕ записи (${countForDate} шт.) на дату: ${targetDate}.\nПродолжить?`)) {
+      return;
+    }
+
+    setDeleting(true);
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('date', targetDate);
+
+    if (!error) {
+      setBookings(prev => prev.filter(b => b.date !== targetDate));
+      setShowClearModal(false);
+      alert(`Все записи на ${targetDate} успешно удалены.`);
+    } else {
+      alert('Ошибка при удалении: ' + error.message);
+    }
+    setDeleting(false);
+  };
+
+  // Полная очистка вообще всех записей
+  const handleClearAllBookings = async () => {
+    if (!supabase) return;
+    if (bookings.length === 0) {
+      alert('В базе данных сейчас нет записей.');
+      return;
+    }
+
+    const confirmation = window.prompt(
+      `ВНИМАНИЕ: Вы собираетесь безвозвратно удалить ВСЕ (${bookings.length}) записи из базы данных!\n\nДля подтверждения введите слово: УДАЛИТЬ`
+    );
+
+    if (confirmation !== 'УДАЛИТЬ') {
+      if (confirmation !== null) {
+        alert('Слово подтверждения введено неверно. Очистка отменена.');
+      }
+      return;
+    }
+
+    setDeleting(true);
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000');
+
+    if (!error) {
+      setBookings([]);
+      setShowClearModal(false);
+      alert('Все записи в базе данных успешно удалены.');
+    } else {
+      alert('Ошибка при очистке: ' + error.message);
+    }
+    setDeleting(false);
+  };
+
   // Фильтрация записей
   const filteredBookings = bookings.filter(b => {
     if (statusFilter !== 'all' && b.status !== statusFilter) return false;
@@ -209,6 +294,10 @@ export const AdminPage: React.FC = () => {
       inAWeek.setDate(now.getDate() + 7);
       const bDate = new Date(b.date);
       return bDate >= now && bDate <= inAWeek;
+    }
+
+    if (dateFilter === 'custom' && customFilterDate) {
+      return b.date === customFilterDate;
     }
 
     return true;
@@ -393,10 +482,10 @@ export const AdminPage: React.FC = () => {
         {/* ВКЛАДКА 1: ЗАПИСИ КЛИЕНТОВ */}
         {activeTab === 'bookings' && (
           <div className="space-y-6">
-            {/* Панель фильтров */}
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#17171A] border border-[#23232A] p-4 rounded-sm">
+            {/* Панель фильтров и управления */}
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-[var(--bg-card)] border border-[var(--border-card)] p-4 rounded-sm shadow-xs">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs text-[#A39B98] flex items-center gap-1 mr-2">
+                <span className="text-xs text-[var(--text-muted)] flex items-center gap-1 mr-2">
                   <Filter className="w-3.5 h-3.5" />
                   Статус:
                 </span>
@@ -415,9 +504,9 @@ export const AdminPage: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-[#A39B98]">Период:</span>
-                {(['all', 'today', 'week'] as const).map(dt => (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs text-[var(--text-muted)]">Период:</span>
+                {(['all', 'today', 'week', 'custom'] as const).map(dt => (
                   <button
                     key={dt}
                     onClick={() => setDateFilter(dt)}
@@ -427,23 +516,42 @@ export const AdminPage: React.FC = () => {
                         : 'bg-[#1F1F24] text-[#A39B98] hover:text-[#F4EBE7]'
                     }`}
                   >
-                    {dt === 'all' ? 'Все' : dt === 'today' ? 'Сегодня' : 'Неделя'}
+                    {dt === 'all' ? 'Все' : dt === 'today' ? 'Сегодня' : dt === 'week' ? 'Неделя' : 'Выбрать дату'}
                   </button>
                 ))}
+
+                {dateFilter === 'custom' && (
+                  <input
+                    type="date"
+                    value={customFilterDate}
+                    onChange={(e) => setCustomFilterDate(e.target.value)}
+                    className="bg-[#1A1A1E] border border-[#26252C] rounded-sm px-2.5 py-1 text-xs text-[#F4EBE7] outline-none"
+                  />
+                )}
+
+                {/* Кнопка открытия окна очистки записей */}
+                <button
+                  onClick={() => setShowClearModal(true)}
+                  className="ml-auto sm:ml-2 px-3 py-1.5 rounded-sm bg-red-950/50 hover:bg-red-900/70 border border-red-500/40 text-red-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+                  title="Очистить записи за день или все"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                  <span>Очистить записи</span>
+                </button>
               </div>
             </div>
 
             {/* Таблица / Список записей */}
             {filteredBookings.length === 0 ? (
-              <div className="text-center py-16 bg-[#17171A] border border-[#23232A] rounded-sm">
-                <p className="text-sm text-[#A39B98]">Записей по выбранным фильтрам не найдено.</p>
+              <div className="text-center py-16 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-sm">
+                <p className="text-sm text-[var(--text-muted)]">Записей по выбранным фильтрам не найдено.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 {filteredBookings.map((b) => (
                   <div
                     key={b.id}
-                    className="bg-[#17171A] border border-[#23232A] hover:border-[#2D2C35] rounded-sm p-5 transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                    className="bg-[var(--bg-card)] border border-[var(--border-card)] hover:border-[#B76E79]/40 rounded-sm p-5 transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-xs"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-3">
@@ -456,30 +564,30 @@ export const AdminPage: React.FC = () => {
                         }`}>
                           {b.status === 'confirmed' ? 'Подтверждено' : b.status === 'cancelled' ? 'Отменено' : 'Новая заявка'}
                         </span>
-                        <span className="text-xs text-[#A39B98]">
+                        <span className="text-xs text-[var(--text-muted)]">
                           Создана: {new Date(b.created_at).toLocaleString('ru-RU')}
                         </span>
                       </div>
 
-                      <div className="text-base font-bold text-[#F4EBE7] pt-1">
+                      <div className="text-base font-bold text-[var(--text-primary)] pt-1">
                         {b.service}
                       </div>
 
-                      <div className="text-xs text-[#D1C7C4] flex flex-wrap items-center gap-x-4 gap-y-1">
+                      <div className="text-xs text-[var(--text-secondary)] flex flex-wrap items-center gap-x-4 gap-y-1">
                         <span>📅 <strong>{b.date}</strong> в <strong>{b.time}</strong></span>
                         <span>👤 Клиент: <strong>{b.client_name}</strong></span>
                         <span>📱 Телефон: <strong>{b.client_phone}</strong></span>
                       </div>
 
                       {b.comment && (
-                        <p className="text-xs text-[#A39B98] italic pt-1">
+                        <p className="text-xs text-[var(--text-muted)] italic pt-1">
                           «{b.comment}»
                         </p>
                       )}
                     </div>
 
-                    {/* Действия со звонком, WhatsApp и статусом */}
-                    <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#23232A]">
+                    {/* Действия со звонком, WhatsApp, статусом и удалением */}
+                    <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-[var(--border-subtle)]">
                       <a
                         href={`https://wa.me/${String(b.client_phone).replace(/\D/g, '')}?text=${encodeURIComponent(`Здравствуйте, ${b.client_name}! Это мастер Молдир по поводу вашей записи на ${b.date} в ${b.time}.`)}`}
                         target="_blank"
@@ -517,9 +625,101 @@ export const AdminPage: React.FC = () => {
                           Отменить
                         </button>
                       )}
+
+                      {/* Кнопка одиночного удаления записи */}
+                      <button
+                        onClick={() => handleDeleteBooking(b.id, b.client_name)}
+                        className="p-2 rounded-sm bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 text-red-300 transition-colors cursor-pointer"
+                        title="Удалить эту запись"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* МОДАЛЬНОЕ ОКНО ОЧИСТКИ ЗАПИСЕЙ */}
+            {showClearModal && (
+              <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-[#17171A] border border-[#2B2A32] rounded-sm max-w-lg w-full p-6 text-[#F4EBE7] shadow-2xl space-y-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-serif-display text-xl font-bold text-[#F4EBE7] flex items-center gap-2">
+                        <Trash2 className="w-5 h-5 text-red-400" />
+                        <span>Очистка записей</span>
+                      </h3>
+                      <p className="text-xs text-[#A39B98] mt-1">
+                        Выберите, какие записи вы хотите удалить из базы данных.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setShowClearModal(false)}
+                      className="text-[#A39B98] hover:text-[#F4EBE7] text-lg font-bold px-2 py-1 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* Блок 1: Очистка записей за конкретный день */}
+                  <div className="p-4 bg-[#1F1F24] border border-[#2B2A32] rounded-sm space-y-3">
+                    <h4 className="text-xs uppercase font-bold text-[#F4EBE7] tracking-wider">
+                      1. Очистить записи за конкретный день
+                    </h4>
+                    <p className="text-xs text-[#A39B98]">
+                      Удалит все клиентские брони на выбранную дату (например, за сегодня или прошедший день).
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                      <input
+                        type="date"
+                        value={clearDateTarget}
+                        onChange={(e) => setClearDateTarget(e.target.value)}
+                        className="bg-[#121215] border border-[#2B2A32] rounded-sm px-3 py-2 text-xs text-[#F4EBE7] outline-none"
+                      />
+                      <button
+                        onClick={() => handleClearBookingsByDate(clearDateTarget)}
+                        disabled={deleting}
+                        className="px-4 py-2 rounded-sm bg-red-900/60 hover:bg-red-800/80 border border-red-500/40 text-red-200 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                        <span>Удалить за {clearDateTarget} ({bookings.filter(b => b.date === clearDateTarget).length} шт.)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Блок 2: Очистить ВООБЩЕ ВСЕ записи */}
+                  <div className="p-4 bg-red-950/30 border border-red-500/40 rounded-sm space-y-3">
+                    <div className="flex items-center gap-2 text-red-300">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <h4 className="text-xs uppercase font-bold tracking-wider">
+                        2. Очистить вообще ВСЕ записи
+                      </h4>
+                    </div>
+                    <p className="text-xs text-red-200/80">
+                      Внимание! Это полностью очистит журнал записей ({bookings.length} записей) в базе данных Supabase.
+                    </p>
+
+                    <button
+                      onClick={handleClearAllBookings}
+                      disabled={deleting}
+                      className="w-full py-2.5 rounded-sm bg-red-600 hover:bg-red-500 text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                    >
+                      {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                      <span>Очистить все записи ({bookings.length} шт.)</span>
+                    </button>
+                  </div>
+
+                  <div className="flex justify-end pt-2">
+                    <button
+                      onClick={() => setShowClearModal(false)}
+                      className="px-4 py-2 rounded-sm bg-[#282730] hover:bg-[#32313D] text-xs text-[#D1C7C4] transition-colors cursor-pointer"
+                    >
+                      Закрыть
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
