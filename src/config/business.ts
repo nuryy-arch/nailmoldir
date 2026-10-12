@@ -5,7 +5,7 @@ export const BUSINESS_CONFIG = {
   city: 'Кызылорда',
   masterName: 'Молдир',
   masterRole: 'Nail stylist',
-  masterPhotoUrl: '/moldir-portrait.jpg',
+  masterPhotoUrl: '/moldir-portrait.png',
   tagline: 'Аккуратный маникюр и эстетичный Smart-педикюр в Кызылорде',
   subtitle: 'Пространство безупречной чистоты, бережной аппаратной техники и трендовых дизайнов. Индивидуальный подход к каждому ноготку.',
   

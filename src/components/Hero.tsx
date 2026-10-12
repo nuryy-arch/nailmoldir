@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, Clock, MapPin, Sparkles, Image as ImageIcon, ShieldCheck, Star } from 'lucide-react';
+import { BUSINESS_CONFIG } from '../config/business';
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -26,7 +27,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
         {/* Бейдж с аватаркой мастера */}
         <div className="inline-flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-gold)] text-xs tracking-[0.15em] uppercase text-[#8F4C56] dark:text-[#E8B4A8] mb-8 backdrop-blur-md shadow-md hover:scale-[1.02] transition-transform">
           <img
-            src="/moldir-portrait.jpg"
+            src={BUSINESS_CONFIG.masterPhotoUrl}
             alt="Молдир"
             className="w-7 h-7 rounded-full object-cover border border-[#B76E79] shadow-sm"
           />
