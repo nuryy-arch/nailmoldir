@@ -1,6 +1,13 @@
 # Moldir Nails (Kyzylorda) — Сайт онлайн-записи и админ-панель
 
-Премиальный сайт онлайн-записи для nail-мастера Молдир в стиле **Dark Chic** (графит `#0D0D0F`, акцент розовое золото `#B76E79` / `#E8B4A8`), разработанный на React + Vite + TypeScript + Tailwind CSS с серверной частью на Supabase и Telegram-уведомлениями.
+> 🧠 **Полный контекст и память проекта для AI и разработчиков:** см. файл [PROJECT_MEMORY.md](file:///D:/nail-stylist-mody/PROJECT_MEMORY.md).
+
+Премиальный сайт онлайн-записи для nail-мастера Мөлдір в стиле **Dark Chic** и **Luxury Nude** (темы День ☀️ / Ночь 🌙), разработанный на React + Vite + TypeScript + Tailwind CSS с серверной частью на Supabase и мгновенной записью в WhatsApp.
+
+- **Сайт в продакшене:** [https://nail-stylist-mody.vercel.app](https://nail-stylist-mody.vercel.app)
+- **Админ-панель:** [https://nail-stylist-mody.vercel.app/admin](https://nail-stylist-mody.vercel.app/admin)
+- **Адрес салона:** г. Кызылорда, ул. Казантаева, 19 (салон красоты «Aizada Studio»)
+- **Телефон мастера:** +7 777 456 80 00
 
 ---
 
