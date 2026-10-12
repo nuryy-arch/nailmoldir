@@ -12,32 +12,57 @@ export const Master: React.FC<MasterProps> = ({ onOpenBooking }) => {
     <section id="master" className="py-24 bg-[#0D0D0F] relative border-t border-[#1E1E24]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Левая колонка: Визуальная карточка мастера */}
+          {/* Левая колонка: Визуальная карточка мастера с реальным портретом */}
           <div className="lg:col-span-5">
-            <div className="relative mx-auto max-w-md">
-              <div className="aspect-[4/5] rounded-sm bg-[#17171A] border border-[#26252C] overflow-hidden flex flex-col justify-end p-8 relative">
-                {/* Фоновое эстетичное оформление */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0F] via-[#17171A]/70 to-[#1F1F26]/30" />
-                <div className="absolute top-8 left-8 right-8 text-center pt-8">
-                  <div className="w-20 h-20 rounded-full mx-auto bg-gradient-to-br from-[#B76E79] to-[#E8B4A8] flex items-center justify-center text-2xl font-serif-display font-bold text-[#0D0D0F] mb-4 shadow-xl">
-                    М
-                  </div>
-                  <span className="text-[11px] uppercase tracking-widest text-[#E8B4A8] block font-bold mb-1">
+            <div className="relative mx-auto max-w-md group">
+              {/* Декоративное свечение розового золота сзади */}
+              <div className="absolute -inset-1 bg-gradient-to-tr from-[#B76E79]/30 via-transparent to-[#E8B4A8]/20 rounded-sm blur-md opacity-60 group-hover:opacity-100 transition-opacity" />
+
+              <div className="relative aspect-[4/5] rounded-sm bg-[#17171A] border border-[#2B2932] group-hover:border-[#B76E79]/60 overflow-hidden flex flex-col justify-end p-6 sm:p-8 transition-colors">
+                {/* Реальный портрет Молдир */}
+                <img
+                  src={BUSINESS_CONFIG.masterPhotoUrl}
+                  alt={`${BUSINESS_CONFIG.masterName} — ${BUSINESS_CONFIG.masterRole}`}
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback если изображение недоступно
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+
+                {/* Градиентное затемнение снизу для идеальной читаемости текста */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0F] via-[#0D0D0F]/70 via-40% to-transparent" />
+
+                {/* Верхняя статусная плашка */}
+                <div className="absolute top-4 left-4 z-10">
+                  <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-[#B76E79]/40 text-[10px] uppercase tracking-widest text-[#E8B4A8] font-bold">
                     {BUSINESS_CONFIG.masterRole}
-                  </span>
-                  <h3 className="font-serif-display text-3xl font-bold text-[#F4EBE7]">
-                    {BUSINESS_CONFIG.masterName}
-                  </h3>
+                  </div>
                 </div>
 
-                <div className="relative z-10 space-y-3 pt-6 border-t border-[#26252C]">
-                  <div className="flex items-center gap-2 text-xs text-[#A39B98]">
-                    <MapPin className="w-4 h-4 text-[#B76E79]" />
-                    <span>{BUSINESS_CONFIG.contacts.address}</span>
+                {/* Нижняя информация поверх фото */}
+                <div className="relative z-10 space-y-3">
+                  <div>
+                    <h3 className="font-serif-display text-3xl font-bold text-[#F4EBE7] mb-1">
+                      {BUSINESS_CONFIG.masterName}
+                    </h3>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-[#B76E79] to-[#E8B4A8]" />
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[#A39B98]">
-                    <InstagramIcon className="w-4 h-4 text-[#B76E79]" />
-                    <span>{BUSINESS_CONFIG.contacts.instagramName} (~6.4K подписчиков)</span>
+
+                  <div className="space-y-2 pt-2 border-t border-white/10 text-xs text-[#D1C7C4]">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-[#B76E79] shrink-0" />
+                      <span className="truncate">{BUSINESS_CONFIG.contacts.address}</span>
+                    </div>
+                    <a
+                      href={BUSINESS_CONFIG.contacts.instagramUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 text-[#E8B4A8] hover:text-white transition-colors"
+                    >
+                      <InstagramIcon className="w-3.5 h-3.5 text-[#B76E79] shrink-0" />
+                      <span>{BUSINESS_CONFIG.contacts.instagramName} (~6.4K)</span>
+                    </a>
                   </div>
                 </div>
               </div>

@@ -23,9 +23,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-        {/* Бейдж */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#17171A]/90 border border-[#B76E79]/30 text-xs tracking-[0.2em] uppercase text-[#E8B4A8] mb-8 backdrop-blur-md shadow-lg">
-          <Sparkles className="w-3.5 h-3.5 text-[#B76E79]" />
+        {/* Бейдж с аватаркой мастера */}
+        <div className="inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1 rounded-full bg-[#17171A]/90 border border-[#B76E79]/40 text-xs tracking-[0.15em] uppercase text-[#E8B4A8] mb-8 backdrop-blur-md shadow-lg">
+          <img
+            src="/moldir-portrait.jpg"
+            alt="Молдир"
+            className="w-7 h-7 rounded-full object-cover border border-[#B76E79]/60 shadow-sm"
+          />
           <span>Кызылорда • Салон «Салта Исаева»</span>
         </div>
 
