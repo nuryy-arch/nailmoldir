@@ -73,7 +73,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0F] text-[#F4EBE7] flex flex-col selection:bg-[#B76E79] selection:text-white">
+    <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)] flex flex-col selection:bg-[#B76E79] selection:text-white transition-colors duration-300">
       {/* Навигационная панель */}
       <Navbar onOpenBooking={handleOpenBooking} />
 

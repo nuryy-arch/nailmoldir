@@ -1,27 +1,59 @@
-/* Dark Chic Palette and Utilities */
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
-    --bg-dark: #0D0D0F;
-    --card-dark: #17171A;
-    --card-hover: #1F1F24;
+    /* Светлая тема (Luxury Silk Nude / Day) */
+    --bg-page: #FAF7F4;
+    --bg-subtle: #F2ECE6;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #FCF8F5;
+    --bg-header: rgba(250, 247, 244, 0.92);
+    --border-subtle: #EBE1D9;
+    --border-card: #E4D7CD;
+    --border-gold: rgba(183, 110, 121, 0.35);
+    --text-primary: #1C1918;
+    --text-secondary: #5C5450;
+    --text-muted: #8F8580;
     --rose-gold: #B76E79;
     --rose-gold-light: #E8B4A8;
-    --text-light: #F4EBE7;
-    --text-muted: #A39B98;
+    --rose-gold-dark: #8F4C56;
+    --shadow-luxury: 0 12px 35px -8px rgba(183, 110, 121, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 25px -4px rgba(183, 110, 121, 0.25);
   }
-  
+
+  .dark {
+    /* Тёмная тема (Dark Chic Onyx / Night) */
+    --bg-page: #0B0B0E;
+    --bg-subtle: #121216;
+    --bg-card: #17171C;
+    --bg-card-hover: #1F1F26;
+    --bg-header: rgba(11, 11, 14, 0.92);
+    --border-subtle: #222129;
+    --border-card: #2B2A34;
+    --border-gold: rgba(183, 110, 121, 0.35);
+    --text-primary: #F5ECE8;
+    --text-secondary: #D4CBC7;
+    --text-muted: #9E9693;
+    --rose-gold: #B76E79;
+    --rose-gold-light: #E8B4A8;
+    --rose-gold-dark: #8F4C56;
+    --shadow-luxury: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px -4px rgba(183, 110, 121, 0.15);
+    --shadow-glow: 0 0 30px -4px rgba(183, 110, 121, 0.35);
+  }
+
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  
+
   body {
-    background-color: #0D0D0F;
-    color: #F4EBE7;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
     font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Custom scrollbar */
@@ -30,15 +62,15 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0D0D0F;
+    background: var(--bg-page);
   }
   ::-webkit-scrollbar-thumb {
-    background: #232227;
+    background: var(--border-card);
     border-radius: 4px;
-    border: 1px solid rgba(183, 110, 121, 0.2);
+    border: 1px solid var(--border-gold);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #34323A;
+    background: var(--rose-gold);
   }
 }
 
@@ -47,20 +79,57 @@
 }
 
 .bg-radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(183, 110, 121, 0.12) 0%, rgba(13, 13, 15, 0) 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(183, 110, 121, 0.18) 0%, transparent 70%);
 }
 
 .rose-gold-gradient-text {
-  background: linear-gradient(135deg, #F9E7E3 0%, #E8B4A8 50%, #B76E79 100%);
+  background: linear-gradient(135deg, #F9E7E3 0%, #E8B4A8 40%, #B76E79 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.rose-gold-border-glow {
-  box-shadow: 0 0 25px -4px rgba(183, 110, 121, 0.25);
+.dark .rose-gold-gradient-text {
+  background: linear-gradient(135deg, #FFF0EC 0%, #E8B4A8 50%, #B76E79 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:not(.dark) .rose-gold-gradient-text {
+  background: linear-gradient(135deg, #A8535F 0%, #B76E79 60%, #7A3742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .gold-divider {
-  background: linear-gradient(90deg, transparent, rgba(183, 110, 121, 0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(183, 110, 121, 0.4), transparent);
   height: 1px;
+}
+
+.luxury-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-luxury);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-gold);
+  transform: translateY(-2px);
+}
+
+/* Эффект мерцающего золотого ореола */
+@keyframes ambientGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+}
+
+.animate-ambient-glow {
+  animation: ambientGlow 7s ease-in-out infinite;
 }

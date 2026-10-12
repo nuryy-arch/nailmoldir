@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { BUSINESS_CONFIG } from '../config/business';
+import { ThemeToggle } from '../components/ThemeToggle';
 import type { BookingRecord, BlockedSlot, ServiceDbItem } from '../types';
 
 export const AdminPage: React.FC = () => {
@@ -305,32 +306,34 @@ export const AdminPage: React.FC = () => {
 
   // Главный интерфейс авторизованной админки
   return (
-    <div className="min-h-screen bg-[#0D0D0F] text-[#F4EBE7]">
+    <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)] transition-colors duration-300">
       {/* Шапка админ-панели */}
-      <header className="sticky top-0 z-30 bg-[#17171A]/95 backdrop-blur-md border-b border-[#23232A] px-4 sm:px-8 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-30 bg-[var(--bg-header)] backdrop-blur-md border-b border-[var(--border-subtle)] px-4 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <a href="/" className="w-8 h-8 rounded bg-[#B76E79] flex items-center justify-center text-white font-bold text-xs">
+          <a href="/" className="w-8 h-8 rounded bg-[#B76E79] flex items-center justify-center text-white font-bold text-xs shadow-sm">
             MN
           </a>
           <div>
-            <h1 className="font-serif-display text-lg sm:text-xl font-bold text-[#F4EBE7] leading-none">
+            <h1 className="font-serif-display text-lg sm:text-xl font-bold text-[var(--text-primary)] leading-none">
               Панель управления • Moldir Nails
             </h1>
-            <span className="text-[10px] text-[#A39B98]">{session.user?.email}</span>
+            <span className="text-[10px] text-[var(--text-muted)]">{session.user?.email}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle compact />
+
           <button
             onClick={loadAdminData}
             title="Обновить данные"
-            className="p-2 rounded-sm bg-[#1F1F24] hover:bg-[#282730] text-[#A39B98] hover:text-[#F4EBE7] transition-colors cursor-pointer"
+            className="p-2 rounded-sm bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer shadow-xs"
           >
             <RefreshCw className={`w-4 h-4 ${loadingData ? 'animate-spin' : ''}`} />
           </button>
           <a
             href="/"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#1F1F24] hover:bg-[#282730] text-xs text-[#F4EBE7] transition-colors"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[var(--bg-card)] border border-[var(--border-card)] text-xs text-[var(--text-primary)] transition-colors shadow-xs"
           >
             <Home className="w-3.5 h-3.5" />
             <span>На сайт</span>

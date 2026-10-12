@@ -13,14 +13,14 @@ export const Gallery: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="py-24 bg-[#0D0D0F] relative border-t border-[#1E1E24]">
+    <section id="gallery" className="py-24 bg-[var(--bg-subtle)]/40 relative border-t border-[var(--border-subtle)] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <div className="text-xs uppercase tracking-[0.25em] text-[#B76E79] font-semibold mb-2">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#B76E79] font-bold mb-2">
               Портфолио
             </div>
-            <h2 className="font-serif-display text-3xl sm:text-4xl md:text-5xl font-bold text-[#F4EBE7]">
+            <h2 className="font-serif-display text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
               Работы мастера
             </h2>
           </div>
@@ -29,7 +29,7 @@ export const Gallery: React.FC = () => {
             href={BUSINESS_CONFIG.contacts.instagramUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#E8B4A8] hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#8F4C56] dark:text-[#E8B4A8] hover:text-[#B76E79] transition-colors"
           >
             <InstagramIcon className="w-4 h-4 text-[#B76E79]" />
             <span>Больше работ в Instagram ({BUSINESS_CONFIG.contacts.instagramName})</span>
@@ -45,7 +45,7 @@ export const Gallery: React.FC = () => {
               <div
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
-                className="group relative aspect-[4/3] rounded-sm overflow-hidden bg-[#17171A] border border-[#23232A] hover:border-[#B76E79]/60 cursor-pointer transition-all duration-300 flex flex-col justify-between"
+                className="group relative aspect-[4/3] rounded-sm overflow-hidden bg-[var(--bg-card)] border border-[var(--border-card)] hover:border-[#B76E79]/70 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-lg"
               >
                 {/* Реальное фото */}
                 {!isFailed ? (
@@ -57,14 +57,14 @@ export const Gallery: React.FC = () => {
                   />
                 ) : (
                   /* Фоновый плейсхолдер с мягким градиентом, если фото не загрузилось */
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#1E1E24] via-[#17171A] to-[#121215] flex flex-col items-center justify-center p-6 text-center">
-                    <div className="w-12 h-12 rounded-full bg-[#26252C] flex items-center justify-center text-[#B76E79] mb-3 group-hover:scale-110 transition-transform">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-subtle)] via-[var(--bg-card)] to-[var(--bg-subtle)] flex flex-col items-center justify-center p-6 text-center">
+                    <div className="w-12 h-12 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-subtle)] flex items-center justify-center text-[#B76E79] mb-3 group-hover:scale-110 transition-transform">
                       <ImageIcon className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] uppercase tracking-wider text-[#A39B98] block mb-1">
+                    <span className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] block mb-1">
                       Работа #{idx + 1}
                     </span>
-                    <span className="text-sm font-serif-display text-[#F4EBE7] font-semibold">
+                    <span className="text-sm font-serif-display text-[var(--text-primary)] font-semibold">
                       {item.title}
                     </span>
                   </div>
@@ -75,7 +75,7 @@ export const Gallery: React.FC = () => {
                   <span className="text-[10px] uppercase tracking-widest text-[#E8B4A8] font-bold mb-1">
                     {item.category}
                   </span>
-                  <h4 className="font-serif-display text-lg font-bold text-[#F4EBE7]">
+                  <h4 className="font-serif-display text-lg font-bold text-white">
                     {item.title}
                   </h4>
                   <div className="mt-3 flex items-center gap-1.5 text-xs text-[#D1C7C4]">
@@ -94,7 +94,7 @@ export const Gallery: React.FC = () => {
             href={BUSINESS_CONFIG.contacts.instagramUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-sm bg-[#17171A] hover:bg-[#202025] border border-[#2B2932] hover:border-[#B76E79]/60 text-xs font-bold uppercase tracking-wider text-[#F4EBE7] transition-all"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-sm bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-card)] hover:border-[#B76E79]/60 text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] transition-all shadow-sm"
           >
             <InstagramIcon className="w-4 h-4 text-[#B76E79]" />
             <span>Больше работ в Instagram {BUSINESS_CONFIG.contacts.instagramName}</span>
@@ -106,16 +106,16 @@ export const Gallery: React.FC = () => {
       {selectedItem && (
         <div
           onClick={() => setSelectedItem(null)}
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-2xl w-full bg-[#17171A] border border-[#2A2930] rounded-sm overflow-hidden shadow-2xl flex flex-col"
+            className="relative max-w-2xl w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-sm overflow-hidden shadow-2xl flex flex-col"
           >
             {/* Кнопка закрытия */}
             <button
               onClick={() => setSelectedItem(null)}
-              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/60 hover:bg-black/90 text-[#F4EBE7] flex items-center justify-center transition-colors cursor-pointer"
+              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/70 hover:bg-black/90 text-white flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Закрыть"
             >
               <X className="w-5 h-5" />
@@ -134,12 +134,12 @@ export const Gallery: React.FC = () => {
             </div>
 
             {/* Описание под фото */}
-            <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[#23232A]">
+            <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[var(--border-subtle)] bg-[var(--bg-card)]">
               <div>
                 <span className="text-[11px] uppercase tracking-widest text-[#B76E79] font-bold block mb-1">
                   {selectedItem.category}
                 </span>
-                <h3 className="font-serif-display text-xl font-bold text-[#F4EBE7]">
+                <h3 className="font-serif-display text-xl font-bold text-[var(--text-primary)]">
                   {selectedItem.title}
                 </h3>
               </div>
@@ -148,7 +148,7 @@ export const Gallery: React.FC = () => {
                 href={BUSINESS_CONFIG.contacts.instagramUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-sm bg-[#B76E79] hover:bg-[#A35D68] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-4.5 py-2.5 rounded-sm bg-[#B76E79] hover:bg-[#9F5661] text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0 shadow-md"
               >
                 <InstagramIcon className="w-4 h-4 text-white" />
                 <span>Открыть профиль</span>

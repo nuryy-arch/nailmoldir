@@ -277,12 +277,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     >
       <div 
         ref={modalContainerRef}
-        className="relative w-full max-w-2xl bg-[#17171A] border border-[#2B2A32] rounded-sm p-5 sm:p-8 my-6 shadow-2xl text-left"
+        className="relative w-full max-w-2xl bg-[var(--bg-card)] border border-[var(--border-card)] rounded-sm p-5 sm:p-8 my-6 shadow-2xl text-left transition-colors duration-300"
       >
         {/* Кнопка закрытия */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#A39B98] hover:text-[#F4EBE7] p-2 transition-colors cursor-pointer text-xl leading-none"
+          className="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[var(--text-primary)] p-2 transition-colors cursor-pointer text-xl leading-none"
           aria-label="Закрыть окно записи"
         >
           <X className="w-5 h-5" />
@@ -294,10 +294,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#B76E79] block mb-1">
                 Онлайн-запись к Молдир
               </span>
-              <h3 id={modalTitleId} className="font-serif-display text-2xl sm:text-3xl font-bold text-[#F4EBE7]">
+              <h3 id={modalTitleId} className="font-serif-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
                 Запись на процедуру
               </h3>
-              <p id={modalDescId} className="text-xs text-[#A39B98] mt-1">
+              <p id={modalDescId} className="text-xs text-[var(--text-muted)] mt-1">
                 Выберите услугу, удобный день и время. Запись подтверждается мастером в WhatsApp.
               </p>
             </div>
@@ -323,7 +323,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               {/* 1. Выбор услуги */}
               <div>
-                <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider">
+                <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider">
                   1. Выберите услугу
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -334,14 +334,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       onClick={() => setFormData(prev => ({ ...prev, serviceId: service.id }))}
                       className={`p-3 text-left rounded-sm border transition-all cursor-pointer ${
                         formData.serviceId === service.id
-                          ? 'bg-[#222129] border-[#B76E79] text-[#F4EBE7] shadow-md shadow-[#B76E79]/15'
-                          : 'bg-[#1A1A1E] border-[#26252C] text-[#A39B98] hover:border-[#383742] hover:text-[#F4EBE7]'
+                          ? 'bg-[#B76E79]/15 border-[#B76E79] text-[var(--text-primary)] shadow-sm'
+                          : 'bg-[var(--bg-subtle)] border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[#B76E79]/50 hover:text-[var(--text-primary)]'
                       }`}
                     >
-                      <div className="text-xs font-bold text-[#F4EBE7]">{service.title}</div>
+                      <div className="text-xs font-bold text-[var(--text-primary)]">{service.title}</div>
                       <div className="flex justify-between items-center mt-1 text-[11px]">
                         <span className="text-[#B76E79] font-bold">{service.priceFormatted}</span>
-                        {service.durationText && <span>{service.durationText}</span>}
+                        {service.durationText && <span className="text-[var(--text-muted)]">{service.durationText}</span>}
                       </div>
                     </button>
                   ))}
@@ -350,9 +350,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               {/* 2. Выбор даты (Календарные дни на 14 дней вперед) */}
               <div>
-                <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider flex items-center justify-between">
+                <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider flex items-center justify-between">
                   <span>2. Выберите дату (ближайшие 14 дней)</span>
-                  <span className="text-[10px] text-[#A39B98] normal-case">
+                  <span className="text-[10px] text-[var(--text-muted)] normal-case">
                     *Вс — выходной / по согласованию
                   </span>
                 </label>
@@ -370,13 +370,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         onClick={() => setFormData(prev => ({ ...prev, date: item.dateString }))}
                         className={`p-2 rounded-sm border text-center transition-all cursor-pointer flex flex-col items-center justify-center ${
                           isDisabled
-                            ? 'bg-[#131316] border-[#1C1C22] text-[#4F4B4A] cursor-not-allowed opacity-50'
+                            ? 'bg-[var(--bg-subtle)] border-[var(--border-subtle)] text-[var(--text-muted)] cursor-not-allowed opacity-40'
                             : isSelected
-                            ? 'bg-[#B76E79] border-[#B76E79] text-[#0D0D0F] font-bold shadow-md'
-                            : 'bg-[#1A1A1E] border-[#26252C] text-[#D1C7C4] hover:border-[#B76E79]/50 hover:bg-[#202025]'
+                            ? 'bg-[#B76E79] border-[#B76E79] text-white font-bold shadow-md'
+                            : 'bg-[var(--bg-subtle)] border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[#B76E79]/60'
                         }`}
                       >
-                        <span className={`text-[10px] uppercase ${isSelected ? 'text-[#0D0D0F]' : 'text-[#A39B98]'}`}>
+                        <span className={`text-[10px] uppercase ${isSelected ? 'text-white' : 'text-[var(--text-muted)]'}`}>
                           {item.dayName}
                         </span>
                         <span className="text-xs font-semibold mt-0.5">
@@ -391,7 +391,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               {/* 3. Выбор времени */}
               <div>
-                <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider">
+                <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider">
                   3. Выберите время записи (интервал 1.5 часа)
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-7 gap-2">
@@ -407,10 +407,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         onClick={() => setFormData(prev => ({ ...prev, time }))}
                         className={`py-2 px-1 rounded-sm border text-xs font-medium transition-all text-center ${
                           isBusy
-                            ? 'bg-[#131316] border-[#1C1C22] text-[#4F4B4A] cursor-not-allowed line-through'
+                            ? 'bg-[var(--bg-subtle)] border-[var(--border-subtle)] text-[var(--text-muted)] cursor-not-allowed line-through opacity-40'
                             : isSelected
-                            ? 'bg-[#B76E79] border-[#B76E79] text-[#0D0D0F] font-bold shadow-md'
-                            : 'bg-[#1A1A1E] border-[#26252C] text-[#F4EBE7] hover:border-[#B76E79]/50 cursor-pointer'
+                            ? 'bg-[#B76E79] border-[#B76E79] text-white font-bold shadow-md'
+                            : 'bg-[var(--bg-subtle)] border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[#B76E79]/60 cursor-pointer'
                         }`}
                       >
                         {time}
@@ -424,38 +424,38 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* 4. Контактные данные клиента */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider">
+                  <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider">
                     Ваше имя *
                   </label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-[#A39B98] absolute left-3 top-3 pointer-events-none" />
+                    <User className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-3 pointer-events-none" />
                     <input
                       type="text"
                       placeholder="Например: Алина"
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className={`w-full bg-[#1A1A1E] border ${
-                        errors.name ? 'border-red-500' : 'border-[#26252C]'
-                      } focus:border-[#B76E79] rounded-sm pl-9 pr-3.5 py-2.5 text-xs text-[#F4EBE7] outline-none transition-colors`}
+                      className={`w-full bg-[var(--bg-subtle)] border ${
+                        errors.name ? 'border-red-500' : 'border-[var(--border-card)]'
+                      } focus:border-[#B76E79] rounded-sm pl-9 pr-3.5 py-2.5 text-xs text-[var(--text-primary)] outline-none transition-colors`}
                     />
                   </div>
                   {errors.name && <p className="text-[11px] text-red-400 mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider">
+                  <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider">
                     Номер телефона *
                   </label>
                   <div className="relative">
-                    <Phone className="w-4 h-4 text-[#A39B98] absolute left-3 top-3 pointer-events-none" />
+                    <Phone className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-3 pointer-events-none" />
                     <input
                       type="tel"
                       placeholder="+7 7XX XXX XX XX"
                       value={formData.phone}
                       onChange={(e) => handlePhoneChange(e.target.value)}
-                      className={`w-full bg-[#1A1A1E] border ${
-                        errors.phone ? 'border-red-500' : 'border-[#26252C]'
-                      } focus:border-[#B76E79] rounded-sm pl-9 pr-3.5 py-2.5 text-xs text-[#F4EBE7] outline-none transition-colors`}
+                      className={`w-full bg-[var(--bg-subtle)] border ${
+                        errors.phone ? 'border-red-500' : 'border-[var(--border-card)]'
+                      } focus:border-[#B76E79] rounded-sm pl-9 pr-3.5 py-2.5 text-xs text-[var(--text-primary)] outline-none transition-colors`}
                     />
                   </div>
                   {errors.phone && <p className="text-[11px] text-red-400 mt-1">{errors.phone}</p>}
@@ -464,7 +464,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               {/* Необязательный комментарий */}
               <div>
-                <label className="block text-xs uppercase font-semibold text-[#A39B98] mb-2 tracking-wider">
+                <label className="block text-xs uppercase font-semibold text-[var(--text-muted)] mb-2 tracking-wider">
                   Пожелания или комментарий (необязательно)
                 </label>
                 <input
@@ -472,12 +472,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   placeholder="Есть ли снятие, фото желаемого дизайна или сломанный ноготь?"
                   value={formData.comment}
                   onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
-                  className="w-full bg-[#1A1A1E] border border-[#26252C] focus:border-[#B76E79] rounded-sm px-3.5 py-2.5 text-xs text-[#F4EBE7] outline-none transition-colors"
+                  className="w-full bg-[var(--bg-subtle)] border border-[var(--border-card)] focus:border-[#B76E79] rounded-sm px-3.5 py-2.5 text-xs text-[var(--text-primary)] outline-none transition-colors"
                 />
               </div>
 
               {/* Честное напоминание о подтверждении */}
-              <div className="p-3 bg-[#131316] border border-[#23232A] rounded-sm flex items-start gap-2.5 text-xs text-[#A39B98]">
+              <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-subtle)] rounded-sm flex items-start gap-2.5 text-xs text-[var(--text-muted)]">
                 <Info className="w-4 h-4 text-[#B76E79] shrink-0 mt-0.5" />
                 <span>
                   Запись подтверждается мастером в WhatsApp. Онлайн-календаря нет, поэтому мы свяжемся с вами для фиксации времени.
@@ -485,9 +485,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               {/* Итоговая панель */}
-              <div className="pt-4 border-t border-[#23232A] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-left w-full sm:w-auto">
-                  <div className="text-[11px] text-[#A39B98]">Ориентировочная стоимость:</div>
+                  <div className="text-[11px] text-[var(--text-muted)]">Ориентировочная стоимость:</div>
                   <div className="font-serif-display text-2xl font-bold text-[#B76E79]">
                     {selectedService?.priceFormatted}
                   </div>
@@ -497,7 +497,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 sm:flex-none px-5 py-3 rounded-sm bg-[#1A1A1E] hover:bg-[#222129] text-[#A39B98] text-xs font-semibold uppercase tracking-wider cursor-pointer"
+                    className="flex-1 sm:flex-none px-5 py-3 rounded-sm bg-[var(--bg-subtle)] hover:bg-[var(--border-card)] text-[var(--text-muted)] text-xs font-semibold uppercase tracking-wider cursor-pointer"
                   >
                     Отмена
                   </button>
@@ -530,28 +530,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#B76E79] block mb-2">
                 Заявка успешно отправлена
               </span>
-              <h3 className="font-serif-display text-2xl sm:text-3xl font-bold text-[#F4EBE7]">
+              <h3 className="font-serif-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
                 Мастер подтвердит запись в WhatsApp
               </h3>
-              <p className="text-xs text-[#A39B98] mt-2 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs text-[var(--text-muted)] mt-2 max-w-md mx-auto leading-relaxed">
                 Мы получили ваши данные. Мастер Молдир проверит свободный слот и напишет вам в WhatsApp для окончательного подтверждения.
               </p>
             </div>
 
             {/* Сводка заявки */}
             {lastSubmission && (
-              <div className="bg-[#1A1A1E] border border-[#2B2A32] rounded-sm p-4 max-w-lg mx-auto text-left text-xs space-y-2">
-                <div className="text-[11px] uppercase tracking-wider text-[#A39B98] font-bold border-b border-[#23232A] pb-1">
+              <div className="bg-[var(--bg-subtle)] border border-[var(--border-card)] rounded-sm p-4 max-w-lg mx-auto text-left text-xs space-y-2">
+                <div className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-bold border-b border-[var(--border-subtle)] pb-1">
                   Сводка визита:
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-[#D1C7C4]">
-                  <div>Услуга: <strong className="text-[#F4EBE7]">{selectedService?.title}</strong></div>
+                <div className="grid grid-cols-2 gap-2 text-[var(--text-secondary)]">
+                  <div>Услуга: <strong className="text-[var(--text-primary)]">{selectedService?.title}</strong></div>
                   <div>Стоимость: <strong className="text-[#B76E79]">{selectedService?.priceFormatted}</strong></div>
-                  <div>Дата и время: <strong className="text-[#F4EBE7]">{lastSubmission.date} в {lastSubmission.time}</strong></div>
-                  <div>Имя: <strong className="text-[#F4EBE7]">{lastSubmission.name}</strong></div>
-                  <div className="col-span-2">Телефон: <strong className="text-[#F4EBE7]">{lastSubmission.phone}</strong></div>
+                  <div>Дата и время: <strong className="text-[var(--text-primary)]">{lastSubmission.date} в {lastSubmission.time}</strong></div>
+                  <div>Имя: <strong className="text-[var(--text-primary)]">{lastSubmission.name}</strong></div>
+                  <div className="col-span-2">Телефон: <strong className="text-[var(--text-primary)]">{lastSubmission.phone}</strong></div>
                   {lastSubmission.comment && (
-                    <div className="col-span-2 text-[11px] text-[#A39B98]">
+                    <div className="col-span-2 text-[11px] text-[var(--text-muted)]">
                       Комментарий: {lastSubmission.comment}
                     </div>
                   )}
@@ -573,7 +573,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 href={BUSINESS_CONFIG.contacts.instagramUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-sm bg-[#222129] hover:bg-[#2A2932] text-[#F4EBE7] text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 border border-[#2D2C35]"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-sm bg-[var(--bg-subtle)] hover:border-[#B76E79]/60 text-[var(--text-primary)] text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 border border-[var(--border-card)]"
               >
                 <InstagramIcon className="w-4 h-4 text-[#B76E79]" />
                 <span>Прислать фото дизайна в Instagram</span>
@@ -586,7 +586,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   setSubmitted(false);
                   onClose();
                 }}
-                className="text-xs text-[#A39B98] hover:text-[#F4EBE7] underline cursor-pointer"
+                className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] underline cursor-pointer"
               >
                 Закрыть окно
               </button>
