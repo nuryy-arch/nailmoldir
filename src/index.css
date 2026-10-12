@@ -1,0 +1,66 @@
+/* Dark Chic Palette and Utilities */
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #0D0D0F;
+    --card-dark: #17171A;
+    --card-hover: #1F1F24;
+    --rose-gold: #B76E79;
+    --rose-gold-light: #E8B4A8;
+    --text-light: #F4EBE7;
+    --text-muted: #A39B98;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: #0D0D0F;
+    color: #F4EBE7;
+    font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0D0D0F;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #232227;
+    border-radius: 4px;
+    border: 1px solid rgba(183, 110, 121, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #34323A;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+}
+
+.bg-radial-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(183, 110, 121, 0.12) 0%, rgba(13, 13, 15, 0) 70%);
+}
+
+.rose-gold-gradient-text {
+  background: linear-gradient(135deg, #F9E7E3 0%, #E8B4A8 50%, #B76E79 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rose-gold-border-glow {
+  box-shadow: 0 0 25px -4px rgba(183, 110, 121, 0.25);
+}
+
+.gold-divider {
+  background: linear-gradient(90deg, transparent, rgba(183, 110, 121, 0.35), transparent);
+  height: 1px;
+}
